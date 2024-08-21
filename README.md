@@ -60,8 +60,69 @@ BlocListener<HomeBloc, HomeState>(
   ),
 );
 ```
-2. BlocBuilder: This widget is used to build the UI based on the current state. It rebuilds the UI whenever the BLoC emits a new state.
+2. BlocBuilder: When you open the Instagram app, the initial event sent to the BLoC might be an InitialFetchEvent, indicating that the user wants to fetch the latest posts from the backend. The BLoC will then handle this event and emit different states: LoadingState, SuccessState, or ErrorState.
 
-3. BlocProvider: This widget provides a BLoC instance to the widget tree, making it available to other widgets in the subtree.
-   
+To build the UI based on these states, you wrap your UI with BlocBuilder. Here's an example:
+In this example, the BlocBuilder listens for state changes in the BLoC and rebuilds the UI accordingly.
+
+```
+BlocBuilder<HomeBloc, HomeState>(
+  bloc: HomeBloc(),
+  builder: (context, current) {
+    if (current is LoadingState) {
+      return CircularProgressIndicator(); // Show a loading indicator
+    } else if (current is SuccessState) {
+      return HomePage(); // Show the main content of the home page
+    } else if (current is ErrorState) {
+      return ErrorContainer(); // Show an error message or UI
+    }
+    return Container(); // Default case
+  },
+);
+```
+
+3. BlocConsumer: The purpose of BlocConsumer is to combine the functionalities of BlocBuilder and BlocListener. It allows you to build widgets based on the current state while also performing side effects in response to state changes.
+
+Here’s how you can use BlocConsumer:
+
+```
+BlocConsumer<HomeBloc, HomeState>(
+  bloc: HomeBloc(),
+  builder: (context, current) {
+    // Return widgets based on the current state
+    if (current is LoadingState) {
+      return CircularProgressIndicator(); // Show a loading indicator
+    } else if (current is SuccessState) {
+      return HomePage(); // Show the main content of the home page
+    } else if (current is ErrorState) {
+      return ErrorContainer(); // Show an error message or UI
+    }
+    return Container(); // Default case
+  },
+  listener: (context, current) {
+    // Perform side effects based on the current state
+    if (current is ErrorState) {
+      // Show an alert or snackbar if there is an error
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('An error occurred!')),
+      );
+    }
+    // Additional side effects can be added here
+  },
+);
+```
+In this example, BlocConsumer builds the UI based on the current state while also allowing you to execute functions in the listener section, such as showing alerts or updating the UI using setState.
+
+### Summary
+### BlocBuilder: 
+Primarily used for building UI based on the current state emitted by the BLoC. It rebuilds the UI whenever the state changes.
+
+### BlocListener: 
+Used to perform side effects in response to state changes but does not build any UI.
+
+### BlocConsumer: 
+Combines the functionality of both BlocBuilder and BlocListener, allowing you to build UI and perform side effects based on state changes in a single widget.
+
+By effectively using these components, you can manage complex state and UI updates in your Flutter application using the BLoC pattern.
+
 By following this structure, you can efficiently manage the flow of events and states in your Flutter app, ensuring that the UI reacts appropriately to user interactions and data updates.
