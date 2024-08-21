@@ -16,4 +16,6 @@ Communication between the UI and data layers occurs through two main concepts: E
 
 In summary, the BLoC pattern ensures that the UI is only responsible for displaying data, while the business logic and data management are handled by BLoC, maintaining a clean separation of concerns.
 
-![BLoC](https://github.com/user-attachments/assets/94ab2d63-cd1d-46a5-a48e-7b0baf343935)
+<p align="center" width="50%">
+    <img width="60%" src="https://github.com/user-attachments/assets/94ab2d63-cd1d-46a5-a48e-7b0baf343935">
+</p>
