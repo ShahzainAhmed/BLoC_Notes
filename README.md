@@ -33,18 +33,17 @@ Once the BLoC receives a success response from the database, it will emit a succ
 
 Typically, you’ll have three main files in your BLoC structure:
 
-1) home_bloc_events.dart: This file contains all the event classes. For example, on Instagram’s home screen, you might have events like ClickStoryEvent, LikePostEvent, FollowUserEvent, etc. Each of these events represents a user action in the UI, such as clicking on a story, liking a post, or following a user.
+1) **home_bloc_events.dart:** This file contains all the event classes. For example, on Instagram’s home screen, you might have events like ClickStoryEvent, LikePostEvent, FollowUserEvent, etc. Each of these events represents a user action in the UI, such as clicking on a story, liking a post, or following a user.
 
-2) home_bloc_state.dart: This file contains all the state classes that the BLoC will emit in response to events. For instance, if a user clicks on a profile picture, a ProfilePictureClickedState could be emitted. If a user tries to report a post, a ReportPostState might be emitted, leading to the display of a bottom sheet asking for the reason for the report. After the report is confirmed, a ReportConfirmedEvent would be sent to the BLoC, which could then emit a ReportSuccessState.
+2) **home_bloc_state.dart:** This file contains all the state classes that the BLoC will emit in response to events. For instance, if a user clicks on a profile picture, a ProfilePictureClickedState could be emitted. If a user tries to report a post, a ReportPostState might be emitted, leading to the display of a bottom sheet asking for the reason for the report. After the report is confirmed, a ReportConfirmedEvent would be sent to the BLoC, which could then emit a ReportSuccessState.
 
-3) home_bloc.dart: This file contains the logic for handling events and emitting states. It defines how the BLoC listens for specific events and what states to emit in response. This is also where API functions are called, handling the core logic of the application. The flutter_bloc package provides several widgets to interact with the BLoC.
+3) **home_bloc.dart:** This file contains the logic for handling events and emitting states. It defines how the BLoC listens for specific events and what states to emit in response. This is also where API functions are called, handling the core logic of the application. The flutter_bloc package provides several widgets to interact with the BLoC.
 
 ### Core BLoC Widgets 
 
 The flutter_bloc package provides three primary widgets:
 
-1. BlocListener: This widget listens to state changes in the BLoC but does not build any UI. It’s used to execute side effects in response to state changes, like showing a bottom sheet or a snackbar. For example, you might wrap a Container with a BlocListener that listens for specific states and performs actions like showing a notification when a post is liked.
-
+1. **BlocListener:** This widget listens to state changes in the BLoC but does not build any UI. It’s used to execute side effects in response to state changes, like showing a bottom sheet or a snackbar. For example, you might wrap a Container with a BlocListener that listens for specific states and performs actions like showing a notification when a post is liked.
 ```
 BlocListener<HomeBloc, HomeState>(
   listener: (context, state) {
@@ -60,11 +59,9 @@ BlocListener<HomeBloc, HomeState>(
   ),
 );
 ```
-2. BlocBuilder: When you open the Instagram app, the initial event sent to the BLoC might be an InitialFetchEvent, indicating that the user wants to fetch the latest posts from the backend. The BLoC will then handle this event and emit different states: LoadingState, SuccessState, or ErrorState.
+2. **BlocBuilder:** When you open the Instagram app, the initial event sent to the BLoC might be an InitialFetchEvent, indicating that the user wants to fetch the latest posts from the backend. The BLoC will then handle this event and emit different states: LoadingState, SuccessState, or ErrorState. To build the UI based on these states, you wrap your UI with BlocBuilder. In this example, the BlocBuilder listens for state changes in the BLoC and rebuilds the UI accordingly.
 
-To build the UI based on these states, you wrap your UI with BlocBuilder. Here's an example:
-In this example, the BlocBuilder listens for state changes in the BLoC and rebuilds the UI accordingly.
-
+Here’s how you can use BlocBuilder:
 ```
 BlocBuilder<HomeBloc, HomeState>(
   bloc: HomeBloc(),
@@ -81,10 +78,9 @@ BlocBuilder<HomeBloc, HomeState>(
 );
 ```
 
-3. BlocConsumer: The purpose of BlocConsumer is to combine the functionalities of BlocBuilder and BlocListener. It allows you to build widgets based on the current state while also performing side effects in response to state changes.
+3. **BlocConsumer:** The purpose of BlocConsumer is to combine the functionalities of BlocBuilder and BlocListener. It allows you to build widgets based on the current state while also performing side effects in response to state changes.
 
 Here’s how you can use BlocConsumer:
-
 ```
 BlocConsumer<HomeBloc, HomeState>(
   bloc: HomeBloc(),
