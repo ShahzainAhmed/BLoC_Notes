@@ -119,3 +119,5 @@ Used to perform side effects in response to state changes but does not build any
 Combines the functionality of both BlocBuilder and BlocListener, allowing you to build UI and perform side effects based on state changes in a single widget.
 
 By effectively using these components, you can manage complex state and UI updates in your Flutter application with the BLoC pattern. This structured approach ensures the UI is responsive to user interactions and data updates, enhancing maintainability and scalability.
+
+The purpose of using BLoC is to separate the UI from the business logic. Without this separation, the logic might be mixed directly into the UI code. For instance, in an app like Instagram, if you place the "like post" function directly within the UI code for the heart icon, it creates a mix of UI and logic. Instead, BLoC keeps all business logic separate from the UI. The UI interacts with the BLoC to request actions and receive updates, which helps keep your code more organized, maintainable, and testable.
